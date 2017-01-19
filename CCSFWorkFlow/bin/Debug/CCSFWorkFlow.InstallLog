@@ -1,0 +1,19 @@
+﻿Installing assembly 'D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe
+   logfile = D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.InstallLog
+No public installers with the RunInstallerAttribute.Yes attribute could be found in the D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe assembly.
+Committing assembly 'D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe
+   logfile = D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.InstallLog
+No public installers with the RunInstallerAttribute.Yes attribute could be found in the D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe assembly.
+Remove InstallState file because there are no installers.
+Uninstalling assembly 'D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe'.
+Affected parameters are:
+   logtoconsole = 
+   assemblypath = D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe
+   logfile = D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.InstallLog
+No public installers with the RunInstallerAttribute.Yes attribute could be found in the D:\CC\20161020\CCSFWorkFlow\CCSFWorkFlow\bin\Debug\CCSFWorkFlow.exe assembly.

@@ -26,6 +26,7 @@ namespace CCSFWorkFlow
             SwitchOperator switchOperator = new SwitchOperator(); //Creating the Object for SwitchOperator
             switchOperator.ExecuteSFFailedRecords();         //Calls the method which triggers the CC WEB API for sales force failed records
             switchOperator.ExecuteFDFailedRecords();        //Calls the method which triggers the CC WEB API for fresh desk failed records
+            switchOperator.ExecuteZDFailedRecords();        //Calls the method which triggers the CC WEB API for Zen desk failed records
         }
 
         protected override void OnStop()

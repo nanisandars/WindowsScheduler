@@ -28,6 +28,10 @@ namespace CCSFWorkFlow
         private Timer m_FDTimer;
         private bool isInRunFD;
 
+        //ZD Integration
+        private Timer m_ZDTimer;
+        private bool isInRunZD;
+
         #endregion
 
         #region Constructors
@@ -105,69 +109,136 @@ namespace CCSFWorkFlow
 
         #region FD Integration
 
-        public void ExecuteFDFailedRecords()
-        {
-            try
+            public void ExecuteFDFailedRecords()
             {
-                string timeInterval = ConfigurationManager.AppSettings["timeIntervalFD"].ToString();  //Gets the TimeInterval set up in the APP Settings
-                isInRunFD = false;  //Used to checking whether the task has completed or not 
-                m_FDTimer = new Timer(); //Instance of a new TIMER
-                m_FDTimer.AutoReset = true;
-                m_FDTimer.Interval = double.Parse(timeInterval);
-                m_FDTimer.Elapsed += new ElapsedEventHandler(Timer_ElapsedFD); // Registering the event handler which need to be called
-                m_FDTimer.Start();  //Starts the Timer Method
-            }
-            catch (Exception ex)
-            {
-                EventLog.WriteEntry("CCFD FailedRecords Service FD", ex.Message, EventLogEntryType.Error);
-            }
-        }
-
-
-        private void Timer_ElapsedFD(object sender, ElapsedEventArgs e)
-        {
-            try
-            {
-                if (!isInRunFD)  //Checks the status of completion
+                try
                 {
-                    isInRunFD = true;
-                    string urlParameter = "";
-                    var client = new HttpClient();
-                    string ccurl = ConfigurationManager.AppSettings["CCFDURL"].ToString();  //Gets the CC WEB API URL set up in the app config
-                    client.BaseAddress = new Uri(ccurl);
-                    try
-                    {
-                        var task = client.GetAsync(urlParameter); //Sends the request to the CC WebAPI
-                        task.Wait();
-                        var response = task.Result;
-                        if (response.IsSuccessStatusCode) //Checks the status code 
-                        {
-                            var readTask = response.Content.ReadAsStringAsync();
-                            readTask.Wait();
-                            var dataObj = readTask.Result;
-                            EventLog.WriteEntry("CCFD FailedRecords Service FD", response.Content.ToString(), EventLogEntryType.SuccessAudit);
-                        }
-                        else
-                        {
-                            EventLog.WriteEntry("CCFD FailedRecords Service FD", response.Content.ToString(), EventLogEntryType.FailureAudit);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        string msg = ex.Message;
-                        EventLog.WriteEntry("CCFD FailedRecords Service FD", msg, EventLogEntryType.Error);
-                    }
-
-                    isInRunFD = false;  //After completion of the single api call reassigning with false 
+                    string timeInterval = ConfigurationManager.AppSettings["timeIntervalFD"].ToString();  //Gets the TimeInterval set up in the APP Settings
+                    isInRunFD = false;  //Used to checking whether the task has completed or not 
+                    m_FDTimer = new Timer(); //Instance of a new TIMER
+                    m_FDTimer.AutoReset = true;
+                    m_FDTimer.Interval = double.Parse(timeInterval);
+                    m_FDTimer.Elapsed += new ElapsedEventHandler(Timer_ElapsedFD); // Registering the event handler which need to be called
+                    m_FDTimer.Start();  //Starts the Timer Method
+                }
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry("CCFD FailedRecords Service FD", ex.Message, EventLogEntryType.Error);
                 }
             }
-            catch (Exception ex)
+
+
+            private void Timer_ElapsedFD(object sender, ElapsedEventArgs e)
             {
-                EventLog.WriteEntry("CCFD FailedRecords Service FD", ex.Message, EventLogEntryType.Error);
-                isInRunFD = false;
+                try
+                {
+                    if (!isInRunFD)  //Checks the status of completion
+                    {
+                        isInRunFD = true;
+                        string urlParameter = "";
+                        var client = new HttpClient();
+                        string ccurl = ConfigurationManager.AppSettings["CCFDURL"].ToString();  //Gets the CC WEB API URL set up in the app config
+                        client.BaseAddress = new Uri(ccurl);
+                        try
+                        {
+                            var task = client.GetAsync(urlParameter); //Sends the request to the CC WebAPI
+                            task.Wait();
+                            var response = task.Result;
+                            if (response.IsSuccessStatusCode) //Checks the status code 
+                            {
+                                var readTask = response.Content.ReadAsStringAsync();
+                                readTask.Wait();
+                                var dataObj = readTask.Result;
+                                EventLog.WriteEntry("CCFD FailedRecords Service FD", response.Content.ToString(), EventLogEntryType.SuccessAudit);
+                            }
+                            else
+                            {
+                                EventLog.WriteEntry("CCFD FailedRecords Service FD", response.Content.ToString(), EventLogEntryType.FailureAudit);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            string msg = ex.Message;
+                            EventLog.WriteEntry("CCFD FailedRecords Service FD", msg, EventLogEntryType.Error);
+                        }
+
+                        isInRunFD = false;  //After completion of the single api call reassigning with false 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry("CCFD FailedRecords Service FD", ex.Message, EventLogEntryType.Error);
+                    isInRunFD = false;
+                }
             }
-        }
 
         #endregion
+
+            #region ZD Integration
+
+            public void ExecuteZDFailedRecords()
+            {
+                try
+                {
+                    string timeInterval = ConfigurationManager.AppSettings["timeIntervalZD"].ToString();  //Gets the TimeInterval set up in the APP Settings
+                    isInRunZD = false;  //Used to checking whether the task has completed or not 
+                    m_ZDTimer = new Timer(); //Instance of a new TIMER
+                    m_ZDTimer.AutoReset = true;
+                    m_ZDTimer.Interval = double.Parse(timeInterval);
+                    m_ZDTimer.Elapsed += new ElapsedEventHandler(Timer_ElapsedZD); // Registering the event handler which need to be called
+                    m_ZDTimer.Start();  //Starts the Timer Method
+                }
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry("CCZD FailedRecords Service ZD", ex.Message, EventLogEntryType.Error);
+                }
+            }
+
+
+            private void Timer_ElapsedZD(object sender, ElapsedEventArgs e)
+            {
+                try
+                {
+                    if (!isInRunZD)  //Checks the status of completion
+                    {
+                        isInRunZD = true;
+                        string urlParameter = "";
+                        var client = new HttpClient();
+                        string ccurl = ConfigurationManager.AppSettings["CCZDURL"].ToString();  //Gets the CC WEB API URL set up in the app config
+                        client.BaseAddress = new Uri(ccurl);
+                        try
+                        {
+                            var task = client.GetAsync(urlParameter); //Sends the request to the CC WebAPI
+                            task.Wait();
+                            var response = task.Result;
+                            if (response.IsSuccessStatusCode) //Checks the status code 
+                            {
+                                var readTask = response.Content.ReadAsStringAsync();
+                                readTask.Wait();
+                                var dataObj = readTask.Result;
+                                EventLog.WriteEntry("CCZD FailedRecords Service ZD", response.Content.ToString(), EventLogEntryType.SuccessAudit);
+                            }
+                            else
+                            {
+                                EventLog.WriteEntry("CCZD FailedRecords Service ZD", response.Content.ToString(), EventLogEntryType.FailureAudit);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            string msg = ex.Message;
+                            EventLog.WriteEntry("CCZD FailedRecords Service ZD", msg, EventLogEntryType.Error);
+                        }
+
+                        isInRunZD = false;  //After completion of the single api call reassigning with false 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    EventLog.WriteEntry("CCZD FailedRecords Service ZD", ex.Message, EventLogEntryType.Error);
+                    isInRunZD = false;
+                }
+            }
+
+            #endregion
     }
 }
